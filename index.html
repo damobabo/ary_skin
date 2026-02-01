@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unbound-ary Skin: Polar to Abyss - Moo Aaa</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- React & ReactDOM (UMD) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Framer Motion (UMD) -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    
+    <!-- Babel Standalone for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+      body {
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+      }
+      h1, h2, h3, h4, .serif-font {
+        font-family: 'Playfair Display', serif;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000000; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "framer-motion": "https://esm.sh/framer-motion@^12.29.2",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useRef } = React;
+      // Access Framer Motion from the global window object
+      const { motion, useInView } = window.Motion;
+
+      // --- Components ---
+
+      // 1. AmbientBackground
+      const AmbientBackground = () => {
+        return (
+          <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+            <motion.div 
+              className="absolute bottom-[-20%] left-[-10%] w-[120%] h-[60%] rounded-full blur-[120px] opacity-20"
+              style={{ background: 'radial-gradient(circle, rgba(20, 24, 40, 1) 0%, rgba(0,0,0,0) 70%)' }}
+              animate={{
+                scale: [1, 1.1, 1],
+                opacity: [0.15, 0.25, 0.15],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-[-10%] right-[-10%] w-[80%] h-[50%] rounded-full blur-[100px] opacity-10"
+              style={{ background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(0,0,0,0) 70%)' }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.05, 0.15, 0.05],
+              }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2
+              }}
+            />
+            <div className="absolute inset-0 opacity-[0.03]" 
+                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+            </div>
+          </div>
+        );
+      };
+
+      // 2. ScrollReveal
+      const ScrollReveal = ({ children, className = "", delay = 0, duration = 0.8 }) => {
+        const ref = useRef(null);
+        const isInView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
+
+        return (
+          <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration, delay, ease: "easeOut" }}
+            className={className}
+          >
+            {children}
+          </motion.div>
+        );
+      };
+
+      // 3. Intro
+      const Intro = () => {
+        return (
+          <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 z-10">
+            <motion.div
+              initial={{ opacity: 0, letterSpacing: "0.2em" }}
+              animate={{ opacity: 1, letterSpacing: "0.05em" }}
+              transition={{ duration: 2.5, ease: "easeInOut" }}
+            >
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-4 serif-font text-white/90">
+                Unbound-ary Skin
+              </h1>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2, delay: 1.5, ease: "easeOut" }}
+            >
+              <h2 className="text-xl md:text-2xl font-thin tracking-[0.2em] text-neutral-400 mb-12">
+                Polar to Abyss
+              </h2>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.5, delay: 2.5 }}
+              className="mt-8"
+            >
+              <p className="text-sm md:text-base text-neutral-500 uppercase tracking-widest">
+                Moo Aaa (무아)
+              </p>
+            </motion.div>
+
+            <motion.div 
+              className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/30"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </motion.div>
+          </section>
+        );
+      };
+
+      // 4. NarrativeSection
+      const NarrativeSection = ({ number, title, content }) => {
+        return (
+          <section className="min-h-[60vh] flex flex-col justify-center py-20 px-6 md:px-12 lg:px-24 max-w-4xl mx-auto z-10 relative">
+            <ScrollReveal>
+              <div className="flex flex-col mb-10 border-l border-neutral-800 pl-6">
+                <span className="text-xs text-neutral-600 font-mono mb-2">{number}</span>
+                <h3 className="text-2xl md:text-4xl serif-font text-neutral-200">{title}</h3>
+              </div>
+            </ScrollReveal>
+
+            <div className="w-full flex flex-col justify-center space-y-6">
+              <ScrollReveal delay={0.2}>
+                <p className="text-base md:text-lg leading-loose text-neutral-400 font-light whitespace-pre-line">
+                  {content}
+                </p>
+              </ScrollReveal>
+            </div>
+          </section>
+        );
+      };
+
+      // 5. Epilogue
+      const Epilogue = () => {
+        return (
+          <footer className="relative min-h-screen flex flex-col items-center justify-between py-24 px-6 z-10 bg-gradient-to-t from-neutral-900 via-black to-black">
+            <div className="flex-1 flex flex-col justify-center items-center w-full max-w-4xl text-center">
+              <ScrollReveal>
+                <div className="w-px h-24 bg-gradient-to-b from-transparent via-neutral-500 to-transparent mx-auto mb-12"></div>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.2}>
+                <blockquote className="text-xl md:text-3xl serif-font italic text-neutral-300 leading-relaxed mb-24 whitespace-pre-line">
+                  "관찰자의 역할인 사진을 통해<br className="hidden md:block"/>
+                  역설적이게도 마침내 나는<br className="hidden md:block"/>
+                  나의 삶에, 세상에 뛰어들었다"
+                </blockquote>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.4}>
+                <div className="space-y-6 mb-12 text-neutral-400 font-light text-sm md:text-base leading-loose whitespace-pre-line">
+                  <p>
+                    이 글을 적는 와중, 오랜 친구이자 사진작가인 정예진(yenata)이 떠났다.
+                    몇 년 전, 이 전시가 진행되는 이곳에서 예진이가 전시했었다.
+                  </p>
+                  <p>
+                    빛나는, 더 빛날 일만 남았던 존재가 하나의 별이 되었다.
+                    평안하기를.
+                  </p>
+                </div>
+              </ScrollReveal>
+            </div>
+
+            <ScrollReveal delay={0.6} className="w-full border-t border-neutral-800 pt-12 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-600 tracking-widest">
+              <div className="mb-4 md:mb-0">
+                UNBOUND-ARY SKIN: POLAR TO ABYSS
+              </div>
+              <div className="text-right">
+                <span className="block mb-1">2025.12.12</span>
+                <span className="block">Moo Aaa (무아)</span>
+              </div>
+            </ScrollReveal>
+          </footer>
+        );
+      };
+
+      // 6. App
+      const App = () => {
+        return (
+          <div className="bg-black text-neutral-200 min-h-screen selection:bg-white/20 selection:text-white">
+            <AmbientBackground />
+            
+            <main className="relative">
+              <Intro />
+
+              <NarrativeSection 
+                number="01"
+                title="존재의 본질"
+                content={`나의 작업은 어둠으로 던져져 버린 내가 빛으로, 나에게로 다가가는 여정이자 존재의 본질에 대한 탐구이다. 근원적인 존재의 의미 부재에서 오는 공허감의 채워짐이며, 무의식의 형상화이다.
+                
+                또한 내가 외부 세계, 그리고 타 존재와 언어를 초월하여 교감하고자 하는 매개체이다.
+                
+                '나의 존재의 본질을 탐구하는 것은 타 존재와 세상의 본질을 탐구함과 다름이 없다.'`}
+              />
+
+              <NarrativeSection 
+                number="02"
+                title="무너진 세계"
+                content={`유년기 이후, 삶은 억압, 반항, 해체, 소외의 연속이었다. 주류의 규칙에 반항하며 비주류의 집단에 늘 속해 있었으나, 그 어디에서도 명확한 소속감을 느끼기 어려웠다.
+                
+                11세 때 부모님이 이혼하셨다. 행복하고 화목했던 유년 시절이었기에 더욱 극적이었던 그 사건은 절대적이었던 세상의 무너짐이자 해체였다. 내가 인식하는 세계가 부서져 버린 첫 번째 사건이자 시발점이었다.
+                
+                이후 믿음이라는 가치는 내게서 상실되어 버렸다.`}
+              />
+
+              <NarrativeSection 
+                number="03"
+                title="이방인의 시간"
+                content={`한국 사회에서 이혼 가정이라는 조건 하나만으로도 이방인이 되어 버렸다. 사회의 그림자에 내던져져 버렸다. 반항하는 자아를 뒤집어쓴 채 외부의 억압에 반항하기 시작했다.
+                
+                초등학교 3곳, 중학교 3곳, 고등학교 3곳을 다녔다. 어딘가에서 안정감을 느끼기도 전에 관계의, 환경의 부서짐이 연속되었다.
+                
+                자연스레 사회에서 소외받은 소수의 집단으로 더 깊이 들어갔다. 경계에 서서 존재하는 것에 점차 익숙해져 갔다.`}
+              />
+
+              <NarrativeSection 
+                number="04"
+                title="전환점"
+                content={`외부로 향했던 부정과 혐오의 에너지가 극에 달했을 때, 그 강렬한 에너지는 내면으로 향하기 시작했다. 2017년경 심한 우울증이 찾아왔다.
+                
+                도망치듯 떠난 영국에서 약 1년간 살았다. 그곳에서의 경험은 외부 세상과 타 존재를, 우울증은 나의 내면을 인식하는 방식이 변화하게 된 큰 전환점이 되었다.
+                
+                지금도 심리 상담을 받고 약을 먹고 있다. 하지만 나는 삶을 살아가고자 '선택'했다.`}
+              />
+              
+              <NarrativeSection 
+                number="05"
+                title="도구: 사진"
+                content={`나의 삶이었지만 삶의 경계에서 수동태의 형태로 관찰자로 머물렀다. 외부의 억압에는 이유 없이 반항하며 부정했지만, 모순적이게도 스스로의 내면을 억압해 나아갔다.
+                
+                그러나 관찰자의 역할인 사진을 통해 역설적이게도 마침내 나는 나의 삶에, 세상에 뛰어들었다.`}
+              />
+
+              <Epilogue />
+            </main>
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
